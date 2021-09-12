@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalhes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="_livro">
+    <ion-list>
+      <ion-item>
+        Titulo : {{_livro.getTitulo()}}
+      </ion-item>
+      <ion-item>
+        Autores : {{_livro.getAutores()}}
+      </ion-item>
+      <ion-item>
+        Editora : {{_livro.getEditora()}}
+      </ion-item>
+      <ion-item>
+        Edição : {{_livro.getEdicao()}}
+      </ion-item>
+      <ion-item *ngIf="_livro.getPremios().length == 0">
+        Premios : nenhum
+      </ion-item>
+      <ion-item *ngIf="_livro.getPremios().length  > 0">
+        Premios : {{_livro.getPremios()}}
+      </ion-item>
+      <ion-item>
+        Quantidade : {{_livro.getQuantidade()}}
+      </ion-item>
+      <ion-item>
+        Imagem : {{_livro.getImagem()}}
+      </ion-item>
+    </ion-list>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button>
+        <ion-icon name="pencil-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+
+</ion-content>

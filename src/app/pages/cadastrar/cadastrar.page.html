@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Cadastrar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="_formLivro" (ngSubmit)="_onSubmit()">
+    <ion-list>
+      <ion-item>
+        <ion-input placeholder="Titulo" formControlName="titulo" type="text" inputmode="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Autores" formControlName="autores" type="text" inputmode="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Editora" formControlName="editora" type="text" inputmode="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Edição" formControlName="edicao" type="number" inputmode="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Premios" formControlName="premios" type="text" inputmode="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Quantidade" formControlName="quantidade" type="number" inputmode="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="submitImage()"> Selecionar imagem </ion-button>
+        <input formControlName="imagem" type="file" accept="image/*" style="display: none" #imageInput />
+      </ion-item>
+
+      <ion-button expand="full" shape="round" type="submit">Cadastrar</ion-button>
+
+    </ion-list>
+  </form>
+
+</ion-content>
