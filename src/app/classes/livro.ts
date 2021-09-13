@@ -2,30 +2,30 @@ export class Livro {
 
     private id: number
     private titulo: string
-    private autores: Array<string>
+    private autor: string
     private editora: string
     private edicao: number
-    private imagem: string
-    private premios: Array<string>
+    private imagem: string | ArrayBuffer
+    private idioma: string
     private quantidade: number
 
 
     constructor(
         titulo: string,
-        autores: Array<string>,
+        autor: string,
         editora: string,
         edicao: number,
-        imagem: string,
-        premios: Array<string>,
+        imagem: string | ArrayBuffer,
+        idioma: string,
         quantidade: number
     ) {
 
         this.titulo = titulo;
-        this.autores = autores;
+        this.autor = autor;
         this.editora = editora;
         this.edicao = edicao;
         this.imagem = imagem;
-        this.premios = premios;
+        this.idioma = idioma;
         this.quantidade = quantidade;
 
     }
@@ -36,8 +36,8 @@ export class Livro {
     public setTitulo(titulo: string) {
         this.titulo = titulo;
     }
-    public setAutores(autores: Array<string>) {
-        this.autores = autores;
+    public setAutor(autor: string) {
+        this.autor = autor;
     }
     public setEditora(editora: string) {
         this.editora = editora;
@@ -45,11 +45,11 @@ export class Livro {
     public setEdicao(edicao: number) {
         this.edicao = edicao;
     }
-    public setImagem(imagem: string) {
+    public setImagem(imagem: string | ArrayBuffer) {
         this.imagem = imagem;
     }
-    public setPremios(premios: Array<string>) {
-        this.premios = premios;
+    public setIdioma(idioma: string) {
+        this.idioma = idioma;
     }
     public setQuantidade(quantidade: number) {
         this.quantidade = quantidade;
@@ -61,8 +61,8 @@ export class Livro {
     public getTitulo(): string {
         return this.titulo;
     }
-    public getAutores(): Array<string> {
-        return this.autores;
+    public getAutor(): string {
+        return this.autor;
     }
     public getEditora(): string {
         return this.editora;
@@ -70,11 +70,11 @@ export class Livro {
     public getEdicao(): number {
         return this.edicao;
     }
-    public getImagem(): string {
+    public getImagem(): string | ArrayBuffer {
         return this.imagem;
     }
-    public getPremios(): Array<string> {
-        return this.premios;
+    public getIdioma(): string {
+        return this.idioma;
     }
     public getQuantidade(): number {
         return this.quantidade;

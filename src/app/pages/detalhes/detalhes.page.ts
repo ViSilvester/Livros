@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Livro } from 'src/app/classes/livro';
 import { LivrosService } from 'src/app/services/livros.service';
 
@@ -11,17 +11,19 @@ import { LivrosService } from 'src/app/services/livros.service';
 export class DetalhesPage implements OnInit {
 
   private _livro: Livro;
-  private _etc: number;
 
   constructor(
     private _livrosService: LivrosService,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
   ) {
-    this._etc = 5;
-    let id: number;
     this._activatedRoute.queryParams.subscribe(params => {
-      this._livro = _livrosService.getLivro(params['id']);
+      this._livro = this._livrosService.getLivro(params['id']);
     });
+  }
+
+  private editar() {
+    this._router.navigate(['/editar'], { queryParams: { id: this._livro.getId() } });
   }
 
   ngOnInit() {

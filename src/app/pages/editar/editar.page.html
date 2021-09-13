@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Cadastrar</ion-title>
+    <ion-title>Editar</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button shape="round" (click)="deleteLivro()">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -53,7 +58,7 @@
           style="display: none" #imageInput />
       </ion-item>
 
-      <ion-button expand="full" shape="round" type="submit">Cadastrar</ion-button>
+      <ion-button expand="full" shape="round" type="submit">Salvar Alterações</ion-button>
 
     </ion-list>
   </form>

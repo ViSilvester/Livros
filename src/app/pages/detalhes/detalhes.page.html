@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Detalhes</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,7 +11,7 @@
         Titulo : {{_livro.getTitulo()}}
       </ion-item>
       <ion-item>
-        Autores : {{_livro.getAutores()}}
+        Autor : {{_livro.getAutor()}}
       </ion-item>
       <ion-item>
         Editora : {{_livro.getEditora()}}
@@ -19,22 +19,24 @@
       <ion-item>
         Edição : {{_livro.getEdicao()}}
       </ion-item>
-      <ion-item *ngIf="_livro.getPremios().length == 0">
-        Premios : nenhum
-      </ion-item>
-      <ion-item *ngIf="_livro.getPremios().length  > 0">
-        Premios : {{_livro.getPremios()}}
+      <ion-item>
+        Idioma : {{_livro.getIdioma()}}
       </ion-item>
       <ion-item>
         Quantidade : {{_livro.getQuantidade()}}
       </ion-item>
       <ion-item>
-        Imagem : {{_livro.getImagem()}}
+        Imagem :
+        <ion-thumbnail slot="end">
+          <img *ngIf="!_livro.getImagem()"
+            src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+          <img *ngIf="_livro.getImagem()" [src]="_livro.getImagem()">
+        </ion-thumbnail>
       </ion-item>
     </ion-list>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button>
+      <ion-fab-button (click)="editar()">
         <ion-icon name="pencil-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
