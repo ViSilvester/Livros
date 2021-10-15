@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Livros</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="presentPopover($event)" shape="round">
+        <ion-icon name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 

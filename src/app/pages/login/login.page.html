@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <br />
+    <ion-input [disabled]="isLoading" type="email" placeholder="Email" [(ngModel)]="email"></ion-input>
+    <br />
+    <ion-input [disabled]="isLoading" type="password" placeholder="Senha" [(ngModel)]="senha"></ion-input>
+    <br />
+    <ion-button [disabled]="isLoading" expand="full" shape="box" (click)=login()>Entrar</ion-button>
+    <ion-button [disabled]="isLoading" expand="full" shape="box" color="light-gray" (click)=loginGoogle()>
+      <ion-icon name="logo-google"></ion-icon>
+      <P style="padding-left: 10px">
+        Entrar com Google
+      </P>
+    </ion-button>
+  </div>
+
+  <br />
+
+
+  <div class="row">
+    <div style="width: 100%;"></div>
+    <ion-button [disabled]="isLoading" color="light" shape="round" expand="full" (click)="_cadastrar()">
+      cadastre-se
+    </ion-button>
+    <div style="width: 100%;"></div>
+  </div>
+
+
+
+
+</ion-content>

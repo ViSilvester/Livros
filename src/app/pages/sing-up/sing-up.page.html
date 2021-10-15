@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Cadastre-se</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <br />
+  <ion-input [disabled]="isLoading" type="email" placeholder="Email" [(ngModel)]="email"></ion-input>
+  <br />
+  <ion-input [disabled]="isLoading" type="password" placeholder="Senha" [(ngModel)]="senha"></ion-input>
+  <br />
+  <ion-input [disabled]="isLoading" type="password" placeholder="Confirmar senha" [(ngModel)]="cSenha"></ion-input>
+  <br />
+  <ion-button [disabled]="isLoading" expand="full" shape="box" (click)=_cadastrar()>Cadastrar</ion-button>
+
+</ion-content>
