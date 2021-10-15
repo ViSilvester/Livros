@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="_livro">
 
   <form [formGroup]="_formLivro" (ngSubmit)="_onSubmit()">
     <ion-list>
@@ -50,8 +50,7 @@
       <div class="validation-text"> {{validationMessages.quantidade}}</div>
       <ion-item>
         <ion-thumbnail slot="start">
-          <img *ngIf="!photo" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-          <img *ngIf="photo" [src]="photo">
+          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
         </ion-thumbnail>
         <ion-button (click)="submitImage()"> Selecionar imagem </ion-button>
         <input formControlName="imagem" (change)="onFileChange($event)" type="file" accept="image/*"

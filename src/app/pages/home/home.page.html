@@ -17,9 +17,7 @@
   <ion-list *ngIf="_livros.length > 0">
     <ion-item *ngFor=" let livro of _livros" button (click)="_visualizar(livro)">
       <ion-thumbnail slot="start">
-        <img *ngIf=" !livro.getImagem()"
-          src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-        <img *ngIf=" livro.getImagem()" [src]="livro.getImagem()">
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
       </ion-thumbnail>
       <ion-label>
         <h2> {{livro.getTitulo()}} </h2>

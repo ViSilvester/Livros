@@ -1,11 +1,11 @@
 export class Livro {
 
-    private id: number
+    private id: string
     private titulo: string
     private autor: string
     private editora: string
     private edicao: number
-    private imagem: string | ArrayBuffer
+    private imgUrl: string
     private idioma: string
     private quantidade: number
 
@@ -15,7 +15,7 @@ export class Livro {
         autor: string,
         editora: string,
         edicao: number,
-        imagem: string | ArrayBuffer,
+        imgUrl: string,
         idioma: string,
         quantidade: number
     ) {
@@ -24,13 +24,13 @@ export class Livro {
         this.autor = autor;
         this.editora = editora;
         this.edicao = edicao;
-        this.imagem = imagem;
+        this.imgUrl = imgUrl;
         this.idioma = idioma;
         this.quantidade = quantidade;
 
     }
 
-    public setId(id: number) {
+    public setId(id: string) {
         this.id = id;
     }
     public setTitulo(titulo: string) {
@@ -45,8 +45,8 @@ export class Livro {
     public setEdicao(edicao: number) {
         this.edicao = edicao;
     }
-    public setImagem(imagem: string | ArrayBuffer) {
-        this.imagem = imagem;
+    public setImgUrl(imgUrl: string) {
+        this.imgUrl = imgUrl;
     }
     public setIdioma(idioma: string) {
         this.idioma = idioma;
@@ -55,7 +55,7 @@ export class Livro {
         this.quantidade = quantidade;
     }
 
-    public getId(): number {
+    public getId(): string {
         return this.id;
     }
     public getTitulo(): string {
@@ -70,8 +70,9 @@ export class Livro {
     public getEdicao(): number {
         return this.edicao;
     }
-    public getImagem(): string | ArrayBuffer {
-        return this.imagem;
+
+    public getImgUrl(): string {
+        return this.imgUrl;
     }
     public getIdioma(): string {
         return this.idioma;

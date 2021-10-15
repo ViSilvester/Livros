@@ -18,7 +18,24 @@ export class DetalhesPage implements OnInit {
     private _router: Router,
   ) {
     this._activatedRoute.queryParams.subscribe(params => {
-      this._livro = this._livrosService.getLivro(params['id']);
+      this._livrosService.getLivro(params['id']).subscribe(
+        res => {
+          if (res.length > 0) {
+            var livro = res[0].payload.val();
+            this._livro = new Livro(
+              livro.titulo,
+              livro.autor,
+              livro.editora,
+              livro.edicao,
+              livro.imgUrl,
+              livro.idioma,
+              livro.quantidade,
+            );
+            this._livro.setId(res[0].key);
+          }
+
+        }
+      );
     });
   }
 

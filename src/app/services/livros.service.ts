@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Livro } from '../classes/livro';
 
 @Injectable({
@@ -6,55 +7,68 @@ import { Livro } from '../classes/livro';
 })
 export class LivrosService {
 
-  private livros: Array<Livro>
-  private counter: number;
+  path = '/livros';
 
-  constructor() {
-    this.livros = new Array<Livro>();
-    this.counter = 0;
-    this.addLivro(new Livro(
-      "Livro teste", "Eu", "Tal",
-      5, null, "pt-br", 20)
-    );
+  constructor(private _angularFireDatabase: AngularFireDatabase) {
   }
 
   public addLivro(livro: Livro) {
-    livro.setId(this.counter);
-    this.livros.push(livro);
-    this.counter++;
-
-  }
-
-  public getLivros() {
-    return this.livros;
-  }
-
-  public getLivro(id: number): Livro {
-    var r: Livro;
-    for (let i = 0; i < this.livros.length; i++) {
-      if (this.livros[i].getId() == id) {
-        r = this.livros[i];
-        break;
+    this._angularFireDatabase.list(this.path).push(livro).catch(
+      error => {
+        console.log(error)
       }
-    }
-    return r;
+    )
+  }
+
+  public getLivros(): Array<Livro> {
+
+    var result = []
+
+    this._angularFireDatabase.list<any>(this.path).snapshotChanges().subscribe(
+      res => {
+        while (result.length > 0) {
+          result.pop();
+        }
+        if (res.length > 0) {
+          res.forEach(data => {
+            var x = data.payload.val();
+            var l = new Livro(
+              x.titulo,
+              x.autor,
+              x.editora,
+              x.edicao,
+              x.imgUrl,
+              x.idioma,
+              x.quantidade);
+
+            l.setId(data.key);
+
+            result.push(l);
+          }
+          )
+        }
+      }
+    );
+
+    return result;
+  }
+
+  public getLivro(id: string) {
+
+
+    return this._angularFireDatabase.list<any>(this.path, ref => ref.orderByKey()
+      .equalTo(id))
+      .snapshotChanges();
+
+
   }
 
   public updateLivro(livro: Livro) {
-    for (let i = 0; i < this.livros.length; i++) {
-      if (this.livros[i].getId() == livro.getId()) {
-        this.livros[i] = livro;
-        break;
-      }
-    }
+    this._angularFireDatabase.list(this.path).update(livro.getId(), livro)
   }
 
-  public deleteLivro(id: number) {
-    for (let i = 0; i < this.livros.length; i++) {
-      if (this.livros[i].getId() == id) {
-        this.livros.splice(i, 1);
-        break;
-      }
-    }
+  public deleteLivro(id: string) {
+    this._angularFireDatabase.list(this.path).remove(id);
+
   }
 }

@@ -91,7 +91,7 @@ export class CadastrarPage implements OnInit {
     const quantidade = this._formLivro.value['quantidade'];
 
     this._livroService.addLivro(
-      new Livro(titulo, autor, editora, edicao, this.photo, idioma, quantidade));
+      new Livro(titulo, autor, editora, edicao, "", idioma, quantidade));
 
     this._router.navigate(['']);
 

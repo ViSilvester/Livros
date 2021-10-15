@@ -37,13 +37,33 @@ export class EditarPage implements OnInit {
   ) {
 
     this._activatedRoute.queryParams.subscribe(params => {
-      this._livro = this._livrosService.getLivro(params['id']);
+      this._livrosService.getLivro(params['id']).subscribe(
+        res => {
+          if (res.length > 0) {
+            var livro = res[0].payload.val();
+            this._livro = new Livro(
+              livro.titulo,
+              livro.autor,
+              livro.editora,
+              livro.edicao,
+              livro.imgUrl,
+              livro.idioma,
+              livro.quantidade,
+            );
+            this._livro.setId(res[0].key);
+            this.createForm();
+          }
+        }
+      );
     });
 
   }
 
   ngOnInit() {
 
+  }
+
+  private createForm() {
     this._formLivro = this._formBuilder.group({
       titulo: [this._livro.getTitulo(), Validators.required],
       autor: [this._livro.getAutor(), Validators.required],
@@ -54,7 +74,8 @@ export class EditarPage implements OnInit {
       imagem: [""],
     });
 
-    this.photo = this._livro.getImagem();
+    this.photo = this._livro.getImgUrl();
+
   }
 
   private submitImage() {
@@ -135,7 +156,7 @@ export class EditarPage implements OnInit {
     this._livro.setEditora(editora);
     this._livro.setEdicao(edicao);
     this._livro.setIdioma(idioma);
-    this._livro.setImagem(this.photo);
+    this._livro.setImgUrl("");
     this._livro.setQuantidade(quantidade);
 
     this._livrosService.updateLivro(this._livro);
