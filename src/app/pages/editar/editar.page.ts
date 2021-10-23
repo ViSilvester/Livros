@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
 import { Livro } from 'src/app/classes/livro';
 import { LivrosService } from 'src/app/services/livros.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-editar',
@@ -14,7 +15,12 @@ export class EditarPage implements OnInit {
 
   private _livro: Livro;
   private _formLivro: FormGroup;
-  private photo: string | ArrayBuffer;
+  private _urlDataImage: string | ArrayBuffer;
+  private _fileImage: ArrayBuffer
+  private _isLoading: boolean = false;
+  private _imageChanged: boolean = false;
+
+
   private validationMessages = {
     titulo: "",
     autor: "",
@@ -34,6 +40,7 @@ export class EditarPage implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _navControler: NavController,
     private _AlertController: AlertController,
+    private _storageService: StorageService,
   ) {
 
     this._activatedRoute.queryParams.subscribe(params => {
@@ -63,6 +70,19 @@ export class EditarPage implements OnInit {
 
   }
 
+  private get _photoSorce() {
+    if (this._urlDataImage) {
+      return 'local';
+    }
+    else if (this._livro.getImgUrl()) {
+      return 'url';
+    }
+    else {
+      return 'none';
+    }
+
+  }
+
   private createForm() {
     this._formLivro = this._formBuilder.group({
       titulo: [this._livro.getTitulo(), Validators.required],
@@ -74,7 +94,7 @@ export class EditarPage implements OnInit {
       imagem: [""],
     });
 
-    this.photo = this._livro.getImgUrl();
+    this._urlDataImage = this._livro.getImgUrl();
 
   }
 
@@ -116,11 +136,21 @@ export class EditarPage implements OnInit {
       return;
     }
 
-    var reader = new FileReader();
-    reader.readAsDataURL(fileChangeEvent.target.files[0]);
-    reader.onload = (_event) => {
-      this.photo = reader.result;
+    this._imageChanged = true;
+
+    var file: File = fileChangeEvent.target.files[0]
+
+    var r1 = new FileReader();
+    r1.onload = (_event) => {
+      this._urlDataImage = r1.result;
     }
+    r1.readAsDataURL(file);
+
+    var r2 = new FileReader();
+    r2.onload = (_event) => {
+      this._fileImage = r2.result as ArrayBuffer;
+    }
+    r2.readAsArrayBuffer(file);
 
   }
 
@@ -131,7 +161,7 @@ export class EditarPage implements OnInit {
 
   }
 
-  private _onSubmit() {
+  private async _onSubmit() {
 
     this.validate("titulo");
     this.validate("autor");
@@ -143,6 +173,8 @@ export class EditarPage implements OnInit {
     if (!this._formLivro.valid) {
       return;
     }
+
+    this._isLoading = true;
 
     const titulo = this._formLivro.value['titulo'];
     const autor = this._formLivro.value['autor'];
@@ -156,12 +188,32 @@ export class EditarPage implements OnInit {
     this._livro.setEditora(editora);
     this._livro.setEdicao(edicao);
     this._livro.setIdioma(idioma);
-    this._livro.setImgUrl("");
     this._livro.setQuantidade(quantidade);
 
-    this._livrosService.updateLivro(this._livro);
+    if (this._imageChanged) {
 
-    this._navControler.back();
+      this._isLoading = true;
+
+      var user = JSON.parse(localStorage.getItem('user'))
+      const path = user.uid + "/" + this._livro.getId() + "/image";
+      await this._storageService.uploadImage(this._livro.getId(), this._fileImage)
+      var url = await this._storageService.getUrlFromPath(path)
+      this._livro.setImgUrl(url)
+    }
+
+    this._livrosService.updateLivro(this._livro).then(
+      res => {
+        this._navControler.back();
+      }
+    ).
+      catch(
+        error => {
+          this._isLoading = false
+        }
+
+      );
+
+
 
   }
 

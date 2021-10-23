@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Livros</ion-title>
+    <ion-item color="primary" lines="none">
+      <ion-icon name="glasses-outline" size="large"></ion-icon>
+      <ion-title>Meus Livros</ion-title>
+    </ion-item>
     <ion-buttons slot="secondary">
       <ion-button (click)="presentPopover($event)" shape="round">
         <ion-icon name="ellipsis-vertical"></ion-icon>
@@ -11,13 +14,16 @@
 </ion-header>
 
 <ion-content>
-  <ion-item *ngIf="_livros.length == 0">
+  <ion-progress-bar *ngIf="_isLoading" type="indeterminate"></ion-progress-bar>
+  <ion-item *ngIf="!_isLoading && _livros.length == 0">
     <ion-label> Nenhum livro cadastrado</ion-label>
   </ion-item>
-  <ion-list *ngIf="_livros.length > 0">
+  <ion-list *ngIf="!_isLoading && _livros.length > 0">
     <ion-item *ngFor=" let livro of _livros" button (click)="_visualizar(livro)">
       <ion-thumbnail slot="start">
-        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+        <img *ngIf="livro.getImgUrl()" src="{{livro.getImgUrl()}}">
+        <img *ngIf="!livro.getImgUrl()"
+          src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
       </ion-thumbnail>
       <ion-label>
         <h2> {{livro.getTitulo()}} </h2>

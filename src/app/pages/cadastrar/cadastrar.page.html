@@ -5,55 +5,63 @@
 </ion-header>
 
 <ion-content>
+  <ion-progress-bar *ngIf="_isLoading" type="indeterminate"></ion-progress-bar>
 
   <form [formGroup]="_formLivro" (ngSubmit)="_onSubmit()">
     <ion-list>
       <ion-item>
-        <ion-input placeholder="Titulo" (ionChange)='validate("titulo")' formControlName="titulo" type="text"
+        <ion-label position="floating">Titulo</ion-label>
+        <ion-input [disabled]="_isLoading" (ionChange)='validate("titulo")' formControlName="titulo" type="text"
           inputmode="text">
         </ion-input>
       </ion-item>
       <div class="validation-text"> {{validationMessages.titulo}}</div>
       <ion-item>
-        <ion-input placeholder="Autor" (ionChange)="validate('autor')" formControlName="autor" type="text"
+        <ion-label position="floating">Autor</ion-label>
+        <ion-input [disabled]="_isLoading" (ionChange)="validate('autor')" formControlName="autor" type="text"
           inputmode="text">
         </ion-input>
       </ion-item>
       <div class="validation-text"> {{validationMessages.autor}}</div>
       <ion-item>
-        <ion-input placeholder="Editora" (ionChange)="validate('editora')" formControlName="editora" type="text"
+        <ion-label position="floating">Editora</ion-label>
+        <ion-input [disabled]="_isLoading" (ionChange)="validate('editora')" formControlName="editora" type="text"
           inputmode="text">
         </ion-input>
       </ion-item>
       <div class="validation-text"> {{validationMessages.editora}}</div>
       <ion-item>
-        <ion-input placeholder="Edição" (ionChange)="validate('edicao')" formControlName="edicao" type="number"
+        <ion-label position="floating">Edição</ion-label>
+        <ion-input [disabled]="_isLoading" (ionChange)="validate('edicao')" formControlName="edicao" type="number"
           inputmode="text">
         </ion-input>
       </ion-item>
       <div class="validation-text"> {{validationMessages.edicao}}</div>
       <ion-item>
-        <ion-input placeholder="Idioma" (ionChange)="validate('idioma')" formControlName="idioma" type="text"
+        <ion-label position="floating">Idioma</ion-label>
+        <ion-input [disabled]="_isLoading" (ionChange)="validate('idioma')" formControlName="idioma" type="text"
           inputmode="text">
         </ion-input>
       </ion-item>
       <div class="validation-text"> {{validationMessages.idioma}}</div>
       <ion-item>
-        <ion-input placeholder="Quantidade" (ionChange)="validate('quantidade')" formControlName="quantidade"
+        <ion-label position="floating">Quantidade</ion-label>
+        <ion-input [disabled]="_isLoading" (ionChange)="validate('quantidade')" formControlName="quantidade"
           type="number" inputmode="text"></ion-input>
       </ion-item>
       <div class="validation-text"> {{validationMessages.quantidade}}</div>
       <ion-item>
         <ion-thumbnail slot="start">
-          <img *ngIf="!photo" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-          <img *ngIf="photo" [src]="photo">
+          <img *ngIf="_photoSorce == 'local'" src="{{_urlDataImage}}">
+          <img *ngIf="_photoSorce == 'none'"
+            src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
         </ion-thumbnail>
-        <ion-button (click)="submitImage()"> Selecionar imagem </ion-button>
+        <ion-button [disabled]="_isLoading" (click)="submitImage()"> Selecionar imagem </ion-button>
         <input formControlName="imagem" (change)="onFileChange($event)" type="file" accept="image/*"
           style="display: none" #imageInput />
       </ion-item>
 
-      <ion-button expand="full" shape="round" type="submit">Cadastrar</ion-button>
+      <ion-button [disabled]="_isLoading" expand="full" shape="round" type="submit">Cadastrar</ion-button>
 
     </ion-list>
   </form>

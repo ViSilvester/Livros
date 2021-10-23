@@ -14,6 +14,7 @@ import { OptionsComponent } from './components/options/options.component';
 export class HomePage implements OnInit {
 
   private _livros: Array<Livro>;
+  private _isLoading: boolean = true;
 
   constructor(private _livroService: LivrosService,
     private _router: Router,
@@ -22,7 +23,40 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this._livros = this._livroService.getLivros();
+    this._loadLivros();
+  }
+
+  ionViewWillEnter() {
+    this._loadLivros()
+  }
+
+  private _loadLivros() {
+    this._isLoading = true;
+    this._livroService.getLivros().subscribe(
+      res => {
+
+        this._livros = [];
+        res.forEach(e => {
+
+          var livro = new Livro(
+            e.payload.val().titulo,
+            e.payload.val().autor,
+            e.payload.val().editora,
+            e.payload.val().edicao,
+            e.payload.val().imgUrl,
+            e.payload.val().idioma,
+            e.payload.val().quantidade);
+
+          livro.setId(e.key);
+
+          this._livros.push(livro
+          );
+
+        })
+        this._isLoading = false;
+      }
+    )
+
   }
 
   private _cadastrar() {

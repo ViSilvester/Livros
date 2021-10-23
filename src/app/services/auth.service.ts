@@ -23,10 +23,10 @@ export class AuthService {
         var oldUser = localStorage.getItem('user') == null ? false : true;
         localStorage.setItem('user', JSON.stringify(userData));
         JSON.parse(localStorage.getItem('user'));
-
-        if (oldUser) {
+        if (_router.url == '/login' || _router.url == '/sing-up') {
           _router.navigate(['home']);
         }
+
       }
       else {
         localStorage.setItem('user', null);
@@ -64,8 +64,14 @@ export class AuthService {
     var user = this.getUser();
 
     if (user) {
-
       if (route.url[0].path == "sing-up" || route.url[0].path == "login") {
+        this._router.navigate(["home"]);
+      }
+      if (
+        (route.url[0].path == "detalhes" ||
+          route.url[0].path == "editar") &&
+        !route.queryParams['id']) {
+
         this._router.navigate(["home"]);
       }
     }

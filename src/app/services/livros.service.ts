@@ -12,51 +12,27 @@ export class LivrosService {
   constructor(private _angularFireDatabase: AngularFireDatabase) {
   }
 
-  public addLivro(livro: Livro) {
-    this._angularFireDatabase.list(this.path).push(livro).catch(
-      error => {
-        console.log(error)
-      }
-    )
+  private getUserId() {
+    var user = localStorage.getItem('user');
+    if (user) {
+      return JSON.parse(user).uid;
+    }
+    return null;
   }
 
-  public getLivros(): Array<Livro> {
+  public addLivro(livro: Livro) {
 
-    var result = []
+    return this._angularFireDatabase.list(this.path + "/" + this.getUserId()).push(livro)
+  }
 
-    this._angularFireDatabase.list<any>(this.path).snapshotChanges().subscribe(
-      res => {
-        while (result.length > 0) {
-          result.pop();
-        }
-        if (res.length > 0) {
-          res.forEach(data => {
-            var x = data.payload.val();
-            var l = new Livro(
-              x.titulo,
-              x.autor,
-              x.editora,
-              x.edicao,
-              x.imgUrl,
-              x.idioma,
-              x.quantidade);
-
-            l.setId(data.key);
-
-            result.push(l);
-          }
-          )
-        }
-      }
-    );
-
-    return result;
+  public getLivros() {
+    return this._angularFireDatabase.list<any>(this.path + "/" + this.getUserId()).snapshotChanges()
   }
 
   public getLivro(id: string) {
 
 
-    return this._angularFireDatabase.list<any>(this.path, ref => ref.orderByKey()
+    return this._angularFireDatabase.list<any>(this.path + "/" + this.getUserId(), ref => ref.orderByKey()
       .equalTo(id))
       .snapshotChanges();
 
@@ -64,11 +40,11 @@ export class LivrosService {
   }
 
   public updateLivro(livro: Livro) {
-    this._angularFireDatabase.list(this.path).update(livro.getId(), livro)
+    return this._angularFireDatabase.list(this.path + "/" + this.getUserId()).update(livro.getId(), livro)
   }
 
   public deleteLivro(id: string) {
-    this._angularFireDatabase.list(this.path).remove(id);
+    return this._angularFireDatabase.list(this.path + "/" + this.getUserId()).remove(id);
 
   }
 }
